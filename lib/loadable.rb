@@ -7,7 +7,7 @@ module FarMar
     end
 
     # Implement me!
-    def self.from_csv_line
+    def self.from_csv
       raise NotImplementedException("You forgot to implement from_csv_line")
     end
   end
