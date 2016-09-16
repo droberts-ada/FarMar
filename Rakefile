@@ -1,7 +1,8 @@
 require 'rake/testtask'
 
-Rake::TestTask.new do |test|
-  t.test_files = FileList['specs/test_*.rb']
+Rake::TestTask.new do |t|
+  t.test_files = FileList['spec/test_*.rb']
+  t.verbose = true
 end
 
 task default: :test
