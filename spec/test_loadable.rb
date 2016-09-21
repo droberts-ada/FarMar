@@ -2,6 +2,7 @@ require_relative 'spec_helper'
 
 module FarMar
   class DummyLoadable < Loadable
+    @data_path = 'spec/dummy_data_good.csv'
     attr_reader :id
 
     def initialize(id, letter, nato_code)
@@ -12,6 +13,19 @@ module FarMar
 
     def self.from_csv(line)
       self.new(line[0].to_i, line[1], line[2])
+    end
+
+    def self.verify(dummy)
+      dummy.each do |id, item|
+        item.id.must_equal id
+      end
+
+      (1..5).each do |id|
+        dummy.must_include id
+      end
+
+      dummy.wont_include 6
+      dummy.wont_include 0
     end
   end
 
@@ -26,17 +40,8 @@ module FarMar
       end
 
       it 'correctly indexes data' do
-        items = DummyLoadable.load_csv('spec/dummy_data_good.csv')
-        items.each do |id, item|
-          item.id.must_equal id
-        end
-
-        (1..5).each do |id|
-          items.must_include id
-        end
-
-        items.wont_include 6
-        items.wont_include 0
+        dummy = DummyLoadable.load_csv('spec/dummy_data_good.csv')
+        DummyLoadable.verify(dummy)
       end
 
       it 'raises an error on duplicate ids' do
@@ -55,6 +60,26 @@ module FarMar
         proc {
           Loadable.load_csv('does/not/exist.csv')
         }.must_raise Errno::ENOENT
+      end
+    end
+
+    describe 'all' do
+      it 'loads as expected from the default path' do
+        dummy = DummyLoadable.all
+        DummyLoadable.verify(dummy)
+      end
+    end
+
+    describe 'find' do
+      it 'Can find ids that exist' do
+        (1..5).each do |id|
+          DummyLoadable.find(id).id.must_equal id
+        end
+      end
+
+      it 'Gets nil for ids that don\'t exist' do
+        DummyLoadable.find(0).must_equal nil
+        DummyLoadable.find(6).must_equal nil
       end
     end
   end
