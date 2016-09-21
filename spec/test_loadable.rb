@@ -3,7 +3,6 @@ require_relative 'spec_helper'
 module FarMar
   class DummyLoadable < Loadable
     @data_path = 'spec/dummy_data_good.csv'
-    attr_reader :id
 
     def initialize(id, letter, nato_code)
       @id = id

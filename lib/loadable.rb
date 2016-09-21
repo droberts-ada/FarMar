@@ -11,18 +11,24 @@ module FarMar
     # A note for the currious:
     # There are several potential ways we could pull the data_path variable
     # from the subclass, but this is the only one that actually works.
-    # Other possible candidates include:
+    # Other possible (non-functional) candidates include:
     #   - Use a constant, (DATA_PATH) defined in the subclass. Unfortunately,
     #     these constants are not visible here in the superclass.
     #   - Use a class variable (@@data_path), defined here and overridden by the
     #     subclass. This doesn't work because there is exactly one instance of the
     #     class variable, shared between all subclasses, and if one changes it
     #     (to say 'support/products.csv') then that change will affect all.
-    # What we do instead is define a class method that gives us the path, and
-    # which is overridden by the subclasses, similar to how from_csv works.
+    #
+    # What we do instead is define an attr_reader at the class level on a
+    # variable called data_path, the value of which will be overridden by the subclass.
+    # See http://www.railstips.org/blog/archives/2006/11/18/class-and-instance-variables-in-ruby/
+    # for a deeper explanation.
     class << self
       attr_reader :data_path
     end
+
+    # The loadable requires an id to function
+    attr_reader :id
 
     # Create a single instance of this object from a line
     # of CSV, i.e. an array.
@@ -46,7 +52,7 @@ module FarMar
     # Load the collection hash { item.id => item } from the path
     # defined by the implementing class.
     def self.all
-      return self.load_csv(@data_path)
+      return load_csv(data_path)
     end
 
     # Find an element by id in the collection hash.

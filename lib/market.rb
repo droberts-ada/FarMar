@@ -1,6 +1,6 @@
 module FarMar
   class Market < Loadable
-    @data_path = 'support/products.csv'
+    @data_path = 'support/markets.csv'
     attr_reader :id, :name, :address, :city, :county, :state, :zip
     def initialize(id, name, address, city, county, state, zip)
       @id = id
@@ -22,7 +22,12 @@ module FarMar
     # State - (String) state in which the market is located
     # Zip - (String) zipcode in which the market is located
     def self.from_csv(line)
-      return self.new(line[0].to_i, line[1], line[2], line[3], line[4], line[5], line[6])
+      if line.length != 7
+        raise ArgumentError.new("Invalid CSV: wrong number of arguments " +
+                "(got #{line.length}, expected 7)")
+      end
+      # Note: Integer blows up on a non-int string, while to_i does not.
+      return self.new(Integer(line[0]), line[1], line[2], line[3], line[4], line[5], line[6])
     end
   end
 end
