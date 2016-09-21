@@ -23,7 +23,6 @@ module FarMar
         "(got #{line.length}, expected 5)")
       end
       # Note: Integer blows up on a non-int string, while to_i does not.
-      puts ">>>>> DPR: parsing #{line}"
       return self.new(Integer(line[0]), Integer(line[1]), DateTime.parse(line[2]),
               Integer(line[3]), Integer(line[4]))
     end
