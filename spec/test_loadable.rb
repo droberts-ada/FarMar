@@ -31,6 +31,10 @@ module FarMar
           item.id.must_equal id
         end
 
+        (1..5).each do |id|
+          items.must_include id
+        end
+
         items.wont_include 6
         items.wont_include 0
       end
@@ -45,6 +49,12 @@ module FarMar
         proc {
           Loadable.load_csv('spec/dummy_data_good.csv')
         }.must_raise NotImplementedError
+      end
+
+      it 'requires a valid path' do
+        proc {
+          Loadable.load_csv('does/not/exist.csv')
+        }.must_raise Errno::ENOENT
       end
     end
   end
