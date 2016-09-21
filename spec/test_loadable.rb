@@ -36,7 +36,9 @@ module FarMar
       end
 
       it 'raises an error on duplicate ids' do
-        proc { DummyLoadable.load_csv('spec/dummy_data_bad.csv') }.must_raise IndexError
+        proc {
+          DummyLoadable.load_csv('spec/dummy_data_bad.csv')
+        }.must_raise IndexError
       end
 
       it 'wont allow a base Loadable to be loaded' do
