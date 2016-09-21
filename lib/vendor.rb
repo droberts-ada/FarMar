@@ -23,5 +23,10 @@ module FarMar
       # Note: Integer blows up on a non-int string, while to_i does not.
       return self.new(Integer(line[0]), line[1], Integer(line[2]), Integer(line[3]))
     end
+
+    # Return the set of vendors assoicated with the given market
+    def self.by_market(market_id)
+      all.select { |id, v| v.market_id == market_id }
+    end
   end
 end

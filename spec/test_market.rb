@@ -47,20 +47,20 @@ module FarMar
         use_test_data
       end
 
-      let (:markets) { Market.all }
       it 'Returns a collection of vendors associated with this market' do
-        vendors = markets[0].vendors
-        vendors.must_be_instance_of Array
+        market = Market.find(1)
+        vendors = market.vendors
+        vendors.must_be_instance_of Hash
         vendors.length.must_equal 2
-        vendors.each do |v|
+        vendors.each do |id, v|
           v.must_be_instance_of Vendor
-          v.market_id.must_equal markets[0].id
+          v.market_id.must_equal market.id
         end
       end
 
       it 'Returns an empty collection if there are no vendors for this market' do
-        vendors = markets[2].vendors
-        vendors.must_be_instance_of Array
+        vendors = Market.find(3).vendors
+        vendors.must_be_instance_of Hash
         vendors.length.must_equal 0
       end
     end

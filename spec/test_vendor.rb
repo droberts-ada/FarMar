@@ -44,5 +44,34 @@ module FarMar
         Vendor.all.length.must_be :>, 0
       end
     end
+
+    describe '#vendors' do
+      before do
+        use_test_data
+      end
+
+      it 'Returns a collection of vendors associated with this market' do
+        market_id = 1
+        vendors = Vendor.by_market(market_id)
+        vendors.must_be_instance_of Hash
+        vendors.length.must_equal 2
+        vendors.each do |id, v|
+          v.must_be_instance_of Vendor
+          v.market_id.must_equal market_id
+        end
+      end
+
+      it 'Returns an empty collection if there are no vendors for this market' do
+        vendors = Vendor.by_market(3)
+        vendors.must_be_instance_of Hash
+        vendors.length.must_equal 0
+      end
+
+      it 'Returns an empty collection for a market that does not exist' do
+        vendors = Vendor.by_market(50)
+        vendors.must_be_instance_of Hash
+        vendors.length.must_equal 0
+      end
+    end
   end
 end
