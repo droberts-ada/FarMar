@@ -30,6 +30,8 @@ module FarMar
       end
     end
 
+    # Because all and find are implemented by and tested through
+    # Loadable, they are not tested extensively here.
     describe 'all' do
       it 'Should inherit the all method' do
         Market.all.length.must_be :>, 0
