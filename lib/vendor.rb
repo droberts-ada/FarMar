@@ -28,5 +28,21 @@ module FarMar
     def self.by_market(market_id)
       all.select { |id, v| v.market_id == market_id }
     end
+
+    def market
+      # TODO
+    end
+
+    def product
+      # TODO
+    end
+
+    def sales
+      # TODO
+    end
+
+    def revenue
+      # TODO
+    end
   end
 end

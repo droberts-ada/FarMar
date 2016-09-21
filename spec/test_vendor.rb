@@ -45,7 +45,7 @@ module FarMar
       end
     end
 
-    describe '#vendors' do
+    describe 'by_market' do
       before do
         use_test_data
       end
@@ -71,6 +71,30 @@ module FarMar
         vendors = Vendor.by_market(50)
         vendors.must_be_instance_of Hash
         vendors.length.must_equal 0
+      end
+    end
+
+    describe '#market' do
+      before do
+        use_test_data
+      end
+    end
+
+    describe '#product' do
+      before do
+        use_test_data
+      end
+    end
+
+    describe '#sales' do
+      before do
+        use_test_data
+      end
+    end
+
+    describe '#revenue' do
+      before do
+        use_test_data
       end
     end
   end

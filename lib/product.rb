@@ -21,5 +21,21 @@ module FarMar
       # Note: Integer blows up on a non-int string, while to_i does not.
       return self.new(Integer(line[0]), line[1], Integer(line[2]))
     end
+
+    def self.by_vendor(vendor_id)
+      # TODO
+    end
+
+    def vendor
+      # TODO
+    end
+
+    def sales
+      # TODO
+    end
+
+    def number_of_sales
+      # TODO
+    end
   end
 end

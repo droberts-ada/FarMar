@@ -42,5 +42,29 @@ module FarMar
         Product.all.length.must_be :>, 0
       end
     end
+
+    describe 'by_vendor' do
+      before do
+        use_test_data
+      end
+    end
+
+    describe '#vendor' do
+      before do
+        use_test_data
+      end
+    end
+
+    describe '#sales' do
+      before do
+        use_test_data
+      end
+    end
+
+    describe '#number_of_sales' do
+      before do
+        use_test_data
+      end
+    end
   end
 end

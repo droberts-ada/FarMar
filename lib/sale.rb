@@ -26,5 +26,17 @@ module FarMar
       return self.new(Integer(line[0]), Integer(line[1]), DateTime.parse(line[2]),
               Integer(line[3]), Integer(line[4]))
     end
+
+    def self.between(beginning_time, end_time)
+      # TODO
+    end
+
+    def vendor
+      # TODO
+    end
+
+    def product
+      # TODO
+    end
   end
 end

@@ -47,5 +47,23 @@ module FarMar
         Sale.all.length.must_be :>, 0
       end
     end
+
+    describe 'between' do
+      before do
+        use_test_data
+      end
+    end
+
+    describe '#vendor' do
+      before do
+        use_test_data
+      end
+    end
+
+    describe '#product' do
+      before do
+        use_test_data
+      end
+    end
   end
 end
