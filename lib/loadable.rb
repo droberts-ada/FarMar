@@ -52,6 +52,7 @@ module FarMar
     # Load the collection hash { item.id => item } from the path
     # defined by the implementing class.
     def self.all
+      puts ">>>>> DPR: loading CSV data from #{data_path}"
       return load_csv(data_path)
     end
 
