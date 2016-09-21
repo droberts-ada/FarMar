@@ -33,8 +33,35 @@ module FarMar
     # Because all and find are implemented by and tested through
     # Loadable, they are not tested extensively here.
     describe 'all' do
-      it 'Should inherit the all method' do
+      before do
+        use_production_data
+      end
+
+      it 'Can load production data' do
         Market.all.length.must_be :>, 0
+      end
+    end
+
+    describe '#vendors' do
+      before do
+        use_test_data
+      end
+
+      let (:markets) { Market.all }
+      it 'Returns a collection of vendors associated with this market' do
+        vendors = markets[0].vendors
+        vendors.must_be_instance_of Array
+        vendors.length.must_equal 2
+        vendors.each do |v|
+          v.must_be_instance_of Vendor
+          v.market_id.must_equal markets[0].id
+        end
+      end
+
+      it 'Returns an empty collection if there are no vendors for this market' do
+        vendors = markets[2].vendors
+        vendors.must_be_instance_of Array
+        vendors.length.must_equal 0
       end
     end
   end

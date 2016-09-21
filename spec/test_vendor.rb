@@ -2,6 +2,7 @@ require_relative 'spec_helper'
 
 module FarMar
   describe Vendor do
+    Vendor.data_path = 'spec/test_data/vendors.csv'
     describe '#initialize' do
       it 'Can be created with valid data' do
         Vendor.new(4, 'name', 4, 10).id.must_equal 4
@@ -35,7 +36,11 @@ module FarMar
     # Because all and find are implemented by and tested through
     # Loadable, they are not tested extensively here.
     describe 'all' do
-      it 'Should inherit the all method' do
+      before do
+        use_production_data
+      end
+
+      it 'Can load production data' do
         Vendor.all.length.must_be :>, 0
       end
     end

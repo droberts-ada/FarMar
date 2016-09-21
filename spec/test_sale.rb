@@ -39,7 +39,11 @@ module FarMar
     # Because all and find are implemented by and tested through
     # Loadable, they are not tested extensively here.
     describe 'all' do
-      it 'Should inherit the all method' do
+      before do
+        use_production_data
+      end
+
+      it 'Can load production data' do
         Sale.all.length.must_be :>, 0
       end
     end

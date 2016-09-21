@@ -24,7 +24,7 @@ module FarMar
     # See http://www.railstips.org/blog/archives/2006/11/18/class-and-instance-variables-in-ruby/
     # for a deeper explanation.
     class << self
-      attr_reader :data_path
+      attr_accessor :data_path
     end
 
     # The loadable requires an id to function

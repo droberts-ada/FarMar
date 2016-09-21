@@ -2,7 +2,7 @@ require_relative 'spec_helper'
 
 module FarMar
   class DummyLoadable < Loadable
-    @data_path = 'spec/dummy_data_good.csv'
+    @data_path = 'spec/test_data/dummy_data_good.csv'
 
     def initialize(id, letter, nato_code)
       @id = id
@@ -31,27 +31,27 @@ module FarMar
   describe Loadable do
     describe 'load_csv' do
       it 'can load data from disk' do
-        DummyLoadable.load_csv('spec/dummy_data_good.csv')
+        DummyLoadable.load_csv('spec/test_data/dummy_data_good.csv')
       end
 
       it 'loads all entries from CSV file' do
-        DummyLoadable.load_csv('spec/dummy_data_good.csv').length.must_equal 5
+        DummyLoadable.load_csv('spec/test_data/dummy_data_good.csv').length.must_equal 5
       end
 
       it 'correctly indexes data' do
-        dummy = DummyLoadable.load_csv('spec/dummy_data_good.csv')
+        dummy = DummyLoadable.load_csv('spec/test_data/dummy_data_good.csv')
         DummyLoadable.verify(dummy)
       end
 
       it 'raises an error on duplicate ids' do
         proc {
-          DummyLoadable.load_csv('spec/dummy_data_bad.csv')
+          DummyLoadable.load_csv('spec/test_data/dummy_data_bad.csv')
         }.must_raise IndexError
       end
 
       it 'wont allow a base Loadable to be loaded' do
         proc {
-          Loadable.load_csv('spec/dummy_data_good.csv')
+          Loadable.load_csv('spec/test_data/dummy_data_good.csv')
         }.must_raise NotImplementedError
       end
 

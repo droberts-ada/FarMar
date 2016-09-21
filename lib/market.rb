@@ -29,5 +29,11 @@ module FarMar
       # Note: Integer blows up on a non-int string, while to_i does not.
       return self.new(Integer(line[0]), line[1], line[2], line[3], line[4], line[5], line[6])
     end
+
+    # Return an array of vendors for this market, or an empty array
+    # if no vendors are assoc. with this market.
+    def vendors
+      Vendor.by_market(@id)
+    end
   end
 end
