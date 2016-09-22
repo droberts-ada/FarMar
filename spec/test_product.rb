@@ -102,6 +102,30 @@ module FarMar
       before do
         use_test_data
       end
+
+      it 'Returns all sales assoc. with this product' do
+        product = Product.find(1)
+        product.must_be_instance_of Product
+        sales = product.sales
+        sales.must_be_instance_of Hash
+
+        # Expect exactly 3, non-duplicate elements
+        sales.length.must_equal 3
+        sales.values.to_set.length.must_equal 3
+
+        # Check that elements have right product id
+        sales.each do |id, sale|
+          sale.product_id.must_equal product.id
+        end
+      end
+
+      it 'Returns an empty set if no sales are assoc. with this product' do
+        product = Product.find(3)
+        product.must_be_instance_of Product
+        sales = product.sales
+        sales.must_be_instance_of Hash
+        sales.length.must_equal 0
+      end
     end
 
     describe '#number_of_sales' do
