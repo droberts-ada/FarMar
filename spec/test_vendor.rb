@@ -171,5 +171,20 @@ module FarMar
         vendor.revenue.must_equal 0
       end
     end
+
+    describe 'Performance Testing' do
+      before do
+        use_production_data
+      end
+      it 'Will take some time to run' do
+        iterations = 10000
+        start_time = Time.now
+        iterations.times do
+          Vendor.find(rand(2600))
+        end
+        end_time = Time.now
+        puts ">>>>> DPR: time for #{iterations} vendor lookups: #{end_time - start_time} seconds."
+      end
+    end
   end
 end
