@@ -128,11 +128,47 @@ module FarMar
       before do
         use_test_data
       end
+
+      it 'Returns all sales assoc. with this vendor' do
+        vendor = Vendor.find(1)
+        vendor.must_be_instance_of Vendor
+        sales = vendor.sales
+        sales.must_be_instance_of Hash
+
+        # Expect exactly 3, non-duplicate elements
+        sales.length.must_equal 3
+        sales.values.to_set.length.must_equal 3
+
+        # Check that elements have right vendor id
+        sales.each do |id, sale|
+          sale.vendor_id.must_equal vendor.id
+        end
+      end
+
+      it 'Returns an empty set if no sales are assoc. with this vendor' do
+        vendor = Vendor.find(3)
+        vendor.must_be_instance_of Vendor
+        sales = vendor.sales
+        sales.must_be_instance_of Hash
+        sales.length.must_equal 0
+      end
     end
 
     describe '#revenue' do
       before do
         use_test_data
+      end
+
+      it 'Sums amount for all sales for this vendor' do
+        vendor = Vendor.find(1)
+        vendor.must_be_instance_of Vendor
+        vendor.revenue.must_equal 6
+      end
+
+      it 'Returns 0 if no sales for this vendor' do
+        vendor = Vendor.find(3)
+        vendor.must_be_instance_of Vendor
+        vendor.revenue.must_equal 0
       end
     end
   end

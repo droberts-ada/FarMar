@@ -38,11 +38,11 @@ module FarMar
     end
 
     def sales
-      # TODO
+      Sale.all.select { |sid, sale| sale.vendor_id == id }
     end
 
     def revenue
-      # TODO
+      sales.map{ |sid, sale| sale.amount }.reduce(:+) || 0
     end
   end
 end
