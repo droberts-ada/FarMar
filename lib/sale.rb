@@ -28,7 +28,10 @@ module FarMar
     end
 
     def self.between(beginning_time, end_time)
-      # TODO
+      unless beginning_time < end_time
+        raise ArgumentError.new("Invalid date range #{beginning_time} to #{end_time}")
+      end
+      all.select { |id, sale| sale.purchase_time.between?(beginning_time, end_time) }
     end
 
     def vendor

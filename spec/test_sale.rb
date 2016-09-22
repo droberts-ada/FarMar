@@ -52,6 +52,67 @@ module FarMar
       before do
         use_test_data
       end
+
+      # All dates in the test data are of form:
+      # 201*-06-10 00:00:00 -0800
+      it 'Returns sales within the range' do
+        begin_time = DateTime.parse('2012-01-01 00:00:00 -0800')
+        end_time = DateTime.parse('2014-01-01 00:00:00 -0800')
+        sales = Sale.between(begin_time, end_time)
+        sales.must_be_instance_of Hash
+
+        # Should contain two unique sales
+        sales.length.must_equal 2
+        sales.values.to_set.length.must_equal 2
+
+        # All sales should be in the expected range
+        sales.each do |id, sale|
+          sale.purchase_time.must_be :>=, begin_time
+          sale.purchase_time.must_be :<=, end_time
+        end
+      end
+
+      it 'Includes sales occurring on the begin time' do
+        begin_time = DateTime.parse('2012-06-10 00:00:00 -0800')
+        end_time = DateTime.parse('2013-01-01 00:00:00 -0800')
+        sales = Sale.between(begin_time, end_time)
+        sales.must_be_instance_of Hash
+        sales.length.must_equal 1
+        sales.values[0].purchase_time.must_equal begin_time
+      end
+
+      it 'Inclues sales occurring on the end time' do
+        begin_time = DateTime.parse('2013-01-01 00:00:00 -0800')
+        end_time = DateTime.parse('2013-06-10 00:00:00 -0800')
+        sales = Sale.between(begin_time, end_time)
+        sales.must_be_instance_of Hash
+        sales.length.must_equal 1
+        sales.values[0].purchase_time.must_equal end_time
+      end
+
+      it 'Requires dates in the right order' do
+        begin_time = DateTime.parse('2014-01-01 00:00:00 -0800')
+        end_time = DateTime.parse('2012-01-01 00:00:00 -0800')
+        proc {
+          sales = Sale.between(begin_time, end_time)
+        }.must_raise ArgumentError
+      end
+
+      it 'Rejects two of the same date' do
+        begin_time = DateTime.parse('2014-01-01 00:00:00 -0800')
+        end_time = DateTime.parse('2014-01-01 00:00:00 -0800')
+        proc {
+          sales = Sale.between(begin_time, end_time)
+        }.must_raise ArgumentError
+      end
+
+      it 'Returns an empty set if no sales in range' do
+        begin_time = DateTime.parse('2100-01-01 00:00:00 -0800')
+        end_time = DateTime.parse('2110-01-01 00:00:00 -0800')
+        sales = Sale.between(begin_time, end_time)
+        sales.must_be_instance_of Hash
+        sales.length.must_equal 0
+      end
     end
 
     describe '#vendor' do
