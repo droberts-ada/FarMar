@@ -47,6 +47,35 @@ module FarMar
       before do
         use_test_data
       end
+
+      it 'Returns all products for a vendor' do
+        vendor_id = 1
+        products = Product.by_vendor(vendor_id)
+        products.must_be_instance_of Hash
+
+        # Expect exactly 3, non-duplicate elements
+        products.length.must_equal 3
+        products.values.to_set.length.must_equal 3
+
+        # Check that elements have right vendor id
+        products.each do |id, product|
+          product.vendor_id.must_equal vendor_id
+        end
+      end
+
+      it 'Returns an empty set for a vendor with no products' do
+        vendor_id = 3
+        products = Product.by_vendor(vendor_id)
+        products.must_be_instance_of Hash
+        products.length.must_equal 0
+      end
+
+      it 'Returns an empty set for a non-extant vendor' do
+        vendor_id = 50
+        products = Product.by_vendor(vendor_id)
+        products.must_be_instance_of Hash
+        products.length.must_equal 0
+      end
     end
 
     describe '#vendor' do

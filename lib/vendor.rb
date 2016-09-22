@@ -30,11 +30,11 @@ module FarMar
     end
 
     def market
-      # TODO
+      Market.find(market_id)
     end
 
-    def product
-      # TODO
+    def products
+      Product.by_vendor(id)
     end
 
     def sales

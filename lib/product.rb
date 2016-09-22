@@ -23,7 +23,7 @@ module FarMar
     end
 
     def self.by_vendor(vendor_id)
-      # TODO
+      all.select { |id, product| product.vendor_id == vendor_id }
     end
 
     def vendor

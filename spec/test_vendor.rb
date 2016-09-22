@@ -78,11 +78,49 @@ module FarMar
       before do
         use_test_data
       end
+
+      it 'Returns the market associated with this vendor' do
+        vendor = Vendor.find(1)
+        vendor.must_be_instance_of Vendor
+        market = vendor.market
+        market.must_be_instance_of Market
+        market.id.must_equal vendor.market_id
+      end
+
+      it 'Returns nil if the market associated with this vendor D.N.E.' do
+        vendor = Vendor.find(5)
+        vendor.must_be_instance_of Vendor
+        vendor.market.nil?.must_equal true
+      end
     end
 
-    describe '#product' do
+    describe '#products' do
       before do
         use_test_data
+      end
+
+      it 'Returns all products assoc. with this vendor' do
+        vendor = Vendor.find(1)
+        vendor.must_be_instance_of Vendor
+        products = vendor.products
+        products.must_be_instance_of Hash
+
+        # Expect exactly 3, non-duplicate elements
+        products.length.must_equal 3
+        products.values.to_set.length.must_equal 3
+
+        # Check that elements have right vendor id
+        products.each do |id, product|
+          product.vendor_id.must_equal vendor.id
+        end
+      end
+
+      it 'Returns an empty set if no products are assoc. with this vendor' do
+        vendor = Vendor.find(3)
+        vendor.must_be_instance_of Vendor
+        products = vendor.products
+        products.must_be_instance_of Hash
+        products.length.must_equal 0
       end
     end
 
