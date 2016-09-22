@@ -132,6 +132,18 @@ module FarMar
       before do
         use_test_data
       end
+
+      it 'Counts amount for all sales for this product' do
+        product = Product.find(1)
+        product.must_be_instance_of Product
+        product.number_of_sales.must_equal 3
+      end
+
+      it 'Returns 0 if no sales for this product' do
+        product = Product.find(3)
+        product.must_be_instance_of Product
+        product.number_of_sales.must_equal 0
+      end
     end
   end
 end

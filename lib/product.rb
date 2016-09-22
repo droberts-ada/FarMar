@@ -35,7 +35,7 @@ module FarMar
     end
 
     def number_of_sales
-      # TODO
+      sales.length
     end
   end
 end
