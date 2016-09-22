@@ -24,7 +24,16 @@ module FarMar
     # See http://www.railstips.org/blog/archives/2006/11/18/class-and-instance-variables-in-ruby/
     # for a deeper explanation.
     class << self
-      attr_accessor :data_path
+      attr_reader :data_path
+      def data_path=(value)
+        # Don't reset if the path didn't change - this is important
+        # because all tests explicitly specify data source
+        if @data_path != value
+          @data_path = value
+          # Forget all memoized data
+          reset
+        end
+      end
     end
 
     # The loadable requires an id to function
@@ -52,13 +61,18 @@ module FarMar
     # Load the collection hash { item.id => item } from the path
     # defined by the implementing class.
     def self.all
-      # puts ">>>>> DPR: loading CSV data from #{data_path}"
-      return load_csv(data_path)
+      @loaded_data ||= load_csv(data_path)
+      return @loaded_data
     end
 
     # Find an element by id in the collection hash.
     def self.find(id)
       return all[id]
+    end
+
+    # Forget all loaded data, for if the source changes
+    def self.reset
+      @loaded_data = nil
     end
   end
 end
