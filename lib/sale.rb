@@ -32,11 +32,11 @@ module FarMar
     end
 
     def vendor
-      # TODO
+      Vendor.find(vendor_id)
     end
 
     def product
-      # TODO
+      Product.find(product_id)
     end
   end
 end

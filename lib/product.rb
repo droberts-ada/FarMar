@@ -27,7 +27,7 @@ module FarMar
     end
 
     def vendor
-      # TODO
+      Vendor.find(vendor_id)
     end
 
     def sales

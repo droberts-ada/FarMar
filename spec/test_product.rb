@@ -82,6 +82,20 @@ module FarMar
       before do
         use_test_data
       end
+
+      it 'Returns the vendor associated with this product' do
+        product = Product.find(1)
+        product.must_be_instance_of Product
+        vendor = product.vendor
+        vendor.must_be_instance_of Vendor
+        vendor.id.must_equal product.vendor_id
+      end
+
+      it 'Returns nil if the vendor associated with this product D.N.E.' do
+        product = Product.find(5)
+        product.must_be_instance_of Product
+        product.vendor.nil?.must_equal true
+      end
     end
 
     describe '#sales' do
